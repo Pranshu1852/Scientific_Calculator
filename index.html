@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="calculator">
+        <div class="calculator__display">
+            <input type="text" class="display--input" placeholder="0" id="inputfield" oninput="changeinput()">
+        </div>
+        <div class="calculator__keypad">
+            <div class="row1">
+                <button class="row1__btn--DEG">DEG</button>
+                <button class="row1__btn--F-E">F-E</button>
+            </div>
+            <button class="row2" disabled>MC</button>
+            <button class="row2" disabled>MR</button>
+            <button class="row2">M+</button>
+            <button class="row2">M-</button>
+            <button class="row2">MS</button>
+            <div class="row3">
+                <button class="row3__btn--trigno"><img class="triangle__image" src="./assets/trignometry.png" alt="triangle image">Trigonometry <img class="icon--down" src="assets/svgs/downarrow.svg" alt="downarrow"></button>
+                <button class="row3__btn--function"><span class="icon--f">&#x1D453;</span> Function <img class="icon--down" src="assets/svgs/downarrow.svg" alt="downarrow"></button>
+            </div>
+            <button>2<sup>nd</sup></button>
+            <button>&#x3C0;</button>
+            <button>e</button>
+            <button>C</button>
+            <button><img src="./assets/svgs/cross.svg" alt="cross image"></button>
+            <button>x<sup>2</sup></button>
+            <button><sup>1</sup>/<sub>x</sub></button>
+            <button>|x|</button>
+            <button>exp</button>
+            <button>mod</button>
+            <button><sup class="sup--left">2</sup><span class="icon--root">&#8730;</span><span class="root-x">x</span></button>
+            <button>(</button>
+            <button>)</button>
+            <button>n!</button>
+            <button>%</button>
+            <button>x<sup>y</sup></button>
+            <button class="number">7</button>
+            <button class="number">8</button>
+            <button class="number">9</button>
+            <button>x</button>
+            <button>10<sup>x</sup></button>
+            <button class="number">4</button>
+            <button class="number">5</button>
+            <button class="number">6</button>
+            <button>-</button>
+            <button>log</button>
+            <button class="number">1</button>
+            <button class="number">2</button>
+            <button class="number">3</button>
+            <button>+</button>
+            <button>ln</button>
+            <button class="number"><sup>+</sup>/<sub>-</sub></button>
+            <button class="number">0</button>
+            <button class="number">.</button>
+            <button class="equal">=</button>
+        </div>
+    </div>
+</body>
+</html>
