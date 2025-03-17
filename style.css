@@ -121,12 +121,12 @@ body {
     border-radius: 5px;
 }
 
-.calculator__keypad>button:hover,.calculator__keypad>div>button:hover{
+.calculator__keypad>button:hover,.calculator__keypad>div>button:hover,.calculator__keypad>div>div>button:hover,.dropdown--trigno>button:hover{
     background-color: var(--btn--hover-bg);
     transition-duration: 0.15s;
 }
 
-.calculator__keypad>button:active,.calculator__keypad>div>button:active{
+.calculator__keypad>button:active,.calculator__keypad>div>button:active,.calculator__keypad>div>div>button:active,.dropdown--trigno>button:active{
     background-color: var(--btn--active-bg);
     transition-duration: 0.15s;
 }
@@ -170,12 +170,48 @@ body {
     width: 100%;
 }
 
-.row3__btn--trigno{
+.row3__trigno--parent{
+    position: relative;
     grid-column: 1/3;
+    height: 100%;
 }
 
-.row3__btn--function{
+.dropdown--trigno{
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    display: none;
+    background-color: var(--color-white);
+    grid-template-columns: repeat(3,1fr);
+    gap: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.dropdown--trigno>button,.dropdown--function>button{
+    background-color: var(--btn-background-color);
+    font-size: 1.2rem;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 5px;
+}
+
+.row3__function--parent{
+    position: relative;
     grid-column: 3/5;
+    height: 100%;
+}
+
+.dropdown--function{
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    display: none;
+    background-color: var(--color-white);
+    grid-template-columns: repeat(2,1fr);
+    gap: 2.5px;
+    padding: 5px;
+    border-radius: 5px;
 }
 
 .row3__btn--trigno,.row3__btn--function{
@@ -187,6 +223,9 @@ body {
     font-size: 1rem;
     border: none;
     background-color: transparent;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
 }
 
 .icon--down{
@@ -239,6 +278,7 @@ sub {
 .root-x{
     border-top: 1px solid var(--color-black);
 }
+
 
 @media (max-width:768px) {
     html{
