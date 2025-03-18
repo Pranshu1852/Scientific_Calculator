@@ -20,6 +20,10 @@ class Calculator{
                 this.handleBackspace();
                 break;
             }
+            case 'C':{
+                this.clearDisplay();
+                break;
+            }
             default:{
                 this.addToinput(buttonText);
             }
