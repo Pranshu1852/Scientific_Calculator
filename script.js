@@ -12,7 +12,10 @@ const Utilities={
         return ans;
     },
     
-    squreRoot(num){
+    Root(num,secondFunctionality){
+        if(secondFunctionality){
+            return Math.cbrt(num);
+        }
         return Math.sqrt(num);
     },
 
@@ -52,13 +55,13 @@ const operatorReplacer={
         });
     },
 
-    replaceRoot(inputString){
+    replaceRoot(inputString,secondFunctionality){
         let regexroot=/√(\d+)|√\(?(\d+)(.\d+)?\)?/g;
         return inputString.replace(regexroot,(match,num)=>{
             console.log(match);
             let str=match.substring(1,match.length);
             str=eval(str);
-            return Utilities.squreRoot(+str);
+            return Utilities.Root(+str,secondFunctionality);
         })
     },
 
@@ -96,11 +99,11 @@ const operatorReplacer={
     }
 }
 
-function finalString(inputString,degFlag){
+function finalString(inputString,degFlag,secondFunctionality){
     let replacedString=operatorReplacer.replaceOperator(inputString);
     replacedString=operatorReplacer.replaceModulus(replacedString);
     replacedString=operatorReplacer.replaceFactorial(replacedString);
-    replacedString=operatorReplacer.replaceRoot(replacedString);
+    replacedString=operatorReplacer.replaceRoot(replacedString,secondFunctionality);
     replacedString=operatorReplacer.replaceeuler(replacedString);
     replacedString=operatorReplacer.replacetrigno(replacedString,degFlag);
     replacedString=operatorReplacer.replaceFunctions(replacedString);
@@ -114,6 +117,7 @@ class Calculator{
         this.trignoFlag=false;
         this.functionFlag=false;
         this.degFlag=true;
+        this.secondFunctionality=false;
         this.initiateEventListener();
     }
 
@@ -168,7 +172,8 @@ class Calculator{
                     this.addToinput('^2');
                     break;
                 }
-                case '2√x':{
+                case '2√x':
+                case '3√x':{
                     this.addToinput('√');
                     break;
                 }
@@ -197,19 +202,19 @@ class Calculator{
                     break;
                 }
                 case 'M+':{
-                    this.memory+=eval(finalString(this.display.value,this.degFlag))||0;
+                    this.memory+=eval(finalString(this.display.value,this.degFlag,this.secondFunctionality))||0;
                     localStorage.setItem('memoryValue',this.memory);
                     this.updateMemorybutton();
                     break;
                 }
                 case 'M-':{
-                    this.memory-=eval(finalString(this.displayvalue,this.degFlag))||0;
+                    this.memory-=eval(finalString(this.displayvalue,this.degFlag,this.secondFunctionality))||0;
                     localStorage.setItem('memoryValue',this.memory);
                     this.updateMemorybutton();
                     break;
                 }
                 case 'MS':{
-                    this.memory=eval(finalString(this.display.value,this.degFlag))||0;
+                    this.memory=eval(finalString(this.display.value,this.degFlag,this.secondFunctionality))||0;
                     localStorage.setItem('memoryValue',this.memory);
                     this.updateMemorybutton();
                     break;
@@ -255,6 +260,19 @@ class Calculator{
                     this.addToinput(buttonText+'(');
                     break;
                 }
+                case '2nd':{
+                    this.secondFunctionality=!this.secondFunctionality;
+                    this.toggleSecondfunctionality(element);
+                    break;
+                }
+                case 'x3':{
+                    this.addToinput('^3');
+                    break;
+                }
+                case '2√x':{
+                    this.addToinput('√');
+                    break;
+                }
                 default:{
                     this.addToinput(buttonText);
                 }
@@ -265,10 +283,8 @@ class Calculator{
     }
 
     calculate(){
-        try{
-            console.log(finalString(this.display.value,this.degFlag));
-                 
-            const result=eval(finalString(this.display.value,this.degFlag));
+        try{  
+            const result=eval(finalString(this.display.value,this.degFlag,this.secondFunctionality));
             this.display.value=result;
         }catch(error){
             this.displayError();
@@ -375,6 +391,21 @@ class Calculator{
         this.functionFlag=false;
         this.toggleTrignobutton();
         this.toggleFunctionbutton();
+    }
+
+    toggleSecondfunctionality(element){
+        const button1=document.getElementsByClassName('secondfunc--btn1')[0];
+        const button2=document.getElementsByClassName('secondfunc--btn2')[0];
+        if(this.secondFunctionality){
+            element.style.backgroundColor = "#93c3e6";
+            button1.querySelector('sup').textContent=3;
+            button2.querySelector('sup').textContent=3;
+        }
+        else{
+            element.style.backgroundColor= "#f7f7f7";
+            button1.querySelector('sup').textContent=2;
+            button2.querySelector('sup').textContent=2;
+        }
     }
 }
 
