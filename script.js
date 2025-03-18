@@ -6,11 +6,24 @@ const operatorReplacer={
                       .replace('log','Math.log10')
                       .replace('ln','Math.log')
                       .replace('^','**');
+    },
+
+    replaceModulus(inputString){
+        let regexmodulus=/\|(.+)\|/g;
+        return inputString.replace(regexmodulus,(match,num)=>{
+            let result=eval(num);
+            if(result<0){
+                result=-result;
+            }                      
+            return result;
+        });
     }
 }
 
 function finalString(inputString){
-    return operatorReplacer.replaceOperator(inputString);
+    let replacedString=operatorReplacer.replaceOperator(inputString);
+    replacedString=operatorReplacer.replaceModulus(replacedString);
+    return replacedString;
 }
 
 class Calculator{
@@ -46,6 +59,34 @@ class Calculator{
                 }
                 case '1/x':{
                     this.convertToreciprocal();
+                    break;
+                }
+                case 'mod':{
+                    this.addToinput('%');
+                    break;
+                }
+                case 'log':{
+                    this.addToinput('log(');
+                    break;
+                }
+                case 'ln':{
+                    this.addToinput('ln(');
+                    break;
+                }
+                case 'x2':{
+                    this.addToinput('^2');
+                    break;
+                }
+                case '2√x':{
+                    this.addToinput('√');
+                    break;
+                }
+                case 'xy':{
+                    this.addToinput('^');
+                    break;
+                }
+                case '|x|':{
+                    this.addToinput('|');
                     break;
                 }
                 case '=':{
