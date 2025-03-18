@@ -67,6 +67,7 @@ function finalString(inputString){
 class Calculator{
     constructor(display){
         this.display=display;
+        this.memory=+localStorage.getItem('memoryValue')||0;
         this.initiateEventListener();
     }
 
@@ -141,6 +142,34 @@ class Calculator{
                 }
                 case '=':{
                     this.calculate();
+                    break;
+                }
+                case 'M+':{
+                    this.memory+=eval(finalString(this.display.value))||0;
+                    localStorage.setItem('memoryValue',this.memory);
+                    this.updateMemorybutton();
+                    break;
+                }
+                case 'M-':{
+                    this.memory-=eval(finalString(this.displayvalue))||0;
+                    localStorage.setItem('memoryValue',this.memory);
+                    this.updateMemorybutton();
+                    break;
+                }
+                case 'MS':{
+                    this.memory=eval(finalString(this.display.value))||0;
+                    localStorage.setItem('memoryValue',this.memory);
+                    this.updateMemorybutton();
+                    break;
+                }
+                case 'MC':{
+                    this.memory=0;
+                    localStorage.removeItem('memoryValue');
+                    this.updateMemorybutton();
+                    break;
+                }
+                case 'MR':{
+                    this.display.value=this.memory;
                     break;
                 }
                 default:{
@@ -224,6 +253,12 @@ class Calculator{
         else{
             this.display.value+='10^';
         }
+    }
+
+    updateMemorybutton(){
+        let hasMemory=this.memory===0?false:true;
+        document.querySelector('.btn--MC').disabled=!hasMemory;
+        document.querySelector('.btn--MR').disabled=!hasMemory;
     }
 }
 
