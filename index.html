@@ -21,15 +21,15 @@
     <div class="calculator">
         <div class="calculator__feature">
             <div class="feature--history">
-                <button class="btn--history"><img class="icon--history" src="./assets/svgs/history-line-icon.svg" alt=""></button>
+                <button class="btn--history" aria-label="history button"><img class="icon--history" src="./assets/svgs/history-line-icon.svg" alt="history icon"></button>
                 <h3 class="history__heading">History</h3>
             </div>
-            <button class="btn--theme"><img class="icon--theme" src="./assets/svgs/light.svg" alt=""></button>
+            <button class="btn--theme" aria-label="theme button"><img class="icon--theme" src="./assets/svgs/light.svg" alt="theme icon"></button>
         </div>
         <div class="calculator__history"></div>
         <button class="btn--clearHistory">Delete History</button>
         <div class="calculator__display">
-            <input type="text" class="display--input" placeholder="0" id="inputfield" oninput="changeinput()">
+            <input type="text" class="display--input" placeholder="0" id="inputfield">
         </div>
         <div class="calculator__keypad">
             <div class="row1">
@@ -65,7 +65,7 @@
             <button class="btn">&#x3C0;</button>
             <button class="btn">e</button>
             <button class="btn">C</button>
-            <button id="back" class="btn"><img src="./assets/svgs/cross.svg" alt="cross image"></button>
+            <button id="back" class="btn" aria-label="back button"><img src="./assets/svgs/cross.svg" alt="cross image"></button>
             <button class="btn secondfunc--btn1">x<sup>2</sup></button>
             <button class="btn"><sup>1</sup>/<sub>x</sub></button>
             <button class="btn">|x|</button>
