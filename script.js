@@ -1,3 +1,22 @@
+const Utilities={
+    factorial(num){
+        if(num===0){
+            return 1;
+        }
+    
+        let ans=1;
+        for(let i=1;i<=num;i++){
+            ans*=i;
+        }
+    
+        return ans;
+    },
+    
+    squreRoot(num){
+        return Math.sqrt(num);
+    }
+}
+
 const operatorReplacer={
     replaceOperator(inputString){
         return inputString.replace('x','*')
@@ -17,12 +36,31 @@ const operatorReplacer={
             }                      
             return result;
         });
+    },
+
+    replaceFactorial(inputString){
+        let regex=/(\d+)!/g;
+        return inputString.replace(regex,(match,num)=>{
+            return Utilities.factorial(+num);
+        });
+    },
+
+    replaceRoot(inputString){
+        let regexroot=/√(\d+)|√\(?(\d+)(.\d+)?\)?/g;
+        return inputString.replace(regexroot,(match,num)=>{
+            console.log(match);
+            let str=match.substring(1,match.length);
+            str=eval(str);
+            return Utilities.squreRoot(+str);
+        })
     }
 }
 
 function finalString(inputString){
     let replacedString=operatorReplacer.replaceOperator(inputString);
     replacedString=operatorReplacer.replaceModulus(replacedString);
+    replacedString=operatorReplacer.replaceFactorial(replacedString);
+    replacedString=operatorReplacer.replaceRoot(replacedString);
     return replacedString;
 }
 
@@ -87,6 +125,10 @@ class Calculator{
                 }
                 case '|x|':{
                     this.addToinput('|');
+                    break;
+                }
+                case 'n!':{
+                    this.addToinput('!');
                     break;
                 }
                 case '=':{
