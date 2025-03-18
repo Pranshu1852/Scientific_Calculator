@@ -29,6 +29,10 @@ class Calculator{
                     this.toggleSign();
                     break;
                 }
+                case '1/x':{
+                    this.convertToreciprocal();
+                    break;
+                }
                 default:{
                     this.addToinput(buttonText);
                 }
@@ -73,6 +77,18 @@ class Calculator{
             this.display.value=this.display.value.replace(regexnot,(match,num)=>{
                 return num;
             });
+        }
+    }
+
+    convertToreciprocal(){
+        let regex=/(\d+)$/;
+        if(regex.test(this.display.value)){
+            this.display.value=this.display.value.replace(regex,(match,num)=>{
+                return '1/'+num;
+            })
+        }
+        else{
+            this.display.value+='1/';
         }
     }
 }
