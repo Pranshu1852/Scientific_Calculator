@@ -1,3 +1,18 @@
+const operatorReplacer={
+    replaceOperator(inputString){
+        return inputString.replace('x','*')
+                      .replace('π','Math.PI')
+                      .replace('÷','/')
+                      .replace('log','Math.log10')
+                      .replace('ln','Math.log')
+                      .replace('^','**');
+    }
+}
+
+function finalString(inputString){
+    return operatorReplacer.replaceOperator(inputString);
+}
+
 class Calculator{
     constructor(display){
         this.display=display;
@@ -33,6 +48,10 @@ class Calculator{
                     this.convertToreciprocal();
                     break;
                 }
+                case '=':{
+                    this.calculate();
+                    break;
+                }
                 default:{
                     this.addToinput(buttonText);
                 }
@@ -42,6 +61,14 @@ class Calculator{
         }
     }
 
+    calculate(){
+        try{     
+            const result=eval(finalString(this.display.value));
+            this.display.value=result;
+        }catch(error){
+            this.displayError();
+        }
+    }
 
     addToinput(value){
         if(this.display.value==="ERROR"){
@@ -54,6 +81,10 @@ class Calculator{
 
     clearDisplay(){
         this.display.value="";
+    }
+
+    displayError(){
+        this.display.value="ERROR";
     }
 
     handleBackspace(){
