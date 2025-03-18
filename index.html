@@ -19,6 +19,15 @@
 </head>
 <body>
     <div class="calculator">
+        <div class="calculator__feature">
+            <div class="feature--history">
+                <button class="btn--history"><img class="icon--history" src="./assets/svgs/history-line-icon.svg" alt=""></button>
+                <h3 class="history__heading">History</h3>
+            </div>
+            <button class="btn--theme"><img class="icon--theme" src="./assets/svgs/light.svg" alt=""></button>
+        </div>
+        <div class="calculator__history"></div>
+        <button class="btn--clearHistory">Delete History</button>
         <div class="calculator__display">
             <input type="text" class="display--input" placeholder="0" id="inputfield" oninput="changeinput()">
         </div>

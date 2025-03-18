@@ -4,6 +4,7 @@
     --btn--hover-bg:#d6d6d6;
     --btn--active-bg:#e6e6e6;
     --color-white:#fff;
+    --color-red: red;
     --color-black:#000;
     --color-blue7:#93c3e6;
     --font-weight-md: 500;
@@ -70,15 +71,81 @@ body {
     background-color: var(--background-color);
     min-width: 320px;
     max-width: 480px;
+    height: 100vh;
+    max-height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.calculator__feature{
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 5vh;
+}
+
+.feature--history{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn--history,.btn--theme{
+    background-color: transparent;
+    border: none;
+    padding: 7px;
+    padding-bottom: 4px;
+    border-radius: 5px;
+}
+
+.icon--history{
+    width: 1.5rem;
+}
+
+.icon--theme{
+    width: 1.7rem;
+}
+
+.history__heading{
+    display: none;
+    font-size: 1.4rem;
+}
+
+.calculator__history{
+    display: none;
+    height: 95vh;
+    overflow: auto;
+    padding: 20px;
+}
+
+ul{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 2rem;
+    height: 100%;
+}
+
+.btn--clearHistory{
+    display: none;
+    font-size: 1rem;
+    margin: 10px;
+    padding: 1rem 0rem;
+    color: var(--color-white);
+    background-color: var(--color-red);
+    border: none;
+    border-radius: 10px;
 }
 
 .calculator__display{
-    height: 25vh;
+    height: 20vh;
     font-size: 5rem;
     font-weight: var(--font-weight-md);
     display: flex;
-    justify-content: end;
-    padding: 20px 20px;
     box-sizing: border-box;
 }
 
@@ -86,10 +153,12 @@ body {
     height: 100%;
     width: 100%;
     background-color: transparent;
+    padding-right: 20px;
     border: none;
     font-size: 5rem;
     text-align: end;
 }
+
 
 .calculator__keypad{
     display: grid;
@@ -100,6 +169,7 @@ body {
     gap: 5px;
     padding: 5px;
     box-sizing: border-box;
+    width: 100% ;
 }
 
 .calculator__keypad>button{
@@ -121,12 +191,12 @@ body {
     border-radius: 5px;
 }
 
-.calculator__keypad>button:hover,.calculator__keypad>div>button:hover,.calculator__keypad>div>div>button:hover,.dropdown--trigno>button:hover{
+.calculator__keypad>button:hover,.calculator__keypad>div>button:hover,.calculator__keypad>div>div>button:hover,.dropdown--trigno>button:hover,.btn--history:hover,.btn--theme:hover{
     background-color: var(--btn--hover-bg);
     transition-duration: 0.15s;
 }
 
-.calculator__keypad>button:active,.calculator__keypad>div>button:active,.calculator__keypad>div>div>button:active,.dropdown--trigno>button:active{
+.calculator__keypad>button:active,.calculator__keypad>div>button:active,.calculator__keypad>div>div>button:active,.dropdown--trigno>button:active,.btn--history:active,.btn--theme:active{
     background-color: var(--btn--active-bg);
     transition-duration: 0.15s;
 }
