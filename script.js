@@ -15,18 +15,26 @@ class Calculator{
     handleButtonClick(element){
         let buttonText=element.id||element.textContent;
 
-        switch(buttonText){
-            case 'back':{
-                this.handleBackspace();
-                break;
+        try{
+            switch(buttonText){
+                case 'back':{
+                    this.handleBackspace();
+                    break;
+                }
+                case 'C':{
+                    this.clearDisplay();
+                    break;
+                }
+                case '+/-':{
+                    this.toggleSign();
+                    break;
+                }
+                default:{
+                    this.addToinput(buttonText);
+                }
             }
-            case 'C':{
-                this.clearDisplay();
-                break;
-            }
-            default:{
-                this.addToinput(buttonText);
-            }
+        }catch{
+            throw new Error('Error while getting button value');
         }
     }
 
@@ -50,6 +58,21 @@ class Calculator{
         }
         else{
             this.display.value=this.display.value.substring(0,this.display.value.length-1)
+        }
+    }
+
+    toggleSign(){
+        let regex=/(\d+)$/;
+        let regexnot=/\(\-(\d+)\)$/;
+        if(regex.test(this.display.value)){
+            this.display.value=this.display.value.replace(regex,(match,num)=>{
+                return '(-'+num+')';
+            });
+        }
+        else if(regexnot.test(this.display.value)){
+            this.display.value=this.display.value.replace(regexnot,(match,num)=>{
+                return num;
+            });
         }
     }
 }
