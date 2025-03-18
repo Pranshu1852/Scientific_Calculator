@@ -131,6 +131,10 @@ class Calculator{
                     this.addToinput('!');
                     break;
                 }
+                case 'exp':{
+                    this.addToinput('.e+');
+                    break;
+                }
                 case '=':{
                     this.calculate();
                     break;
