@@ -135,6 +135,10 @@ class Calculator{
                     this.addToinput('.e+');
                     break;
                 }
+                case '10x':{
+                    this.powerOften();
+                    break;
+                }
                 case '=':{
                     this.calculate();
                     break;
@@ -207,6 +211,18 @@ class Calculator{
         }
         else{
             this.display.value+='1/';
+        }
+    }
+
+    powerOften(){
+        let regex=/(\d+)$/;
+        if(regex.test(this.display.value)){
+            this.display.value=this.display.value.replace(regex,(match,num)=>{
+                return '10^'+num;
+            })
+        }
+        else{
+            this.display.value+='10^';
         }
     }
 }
