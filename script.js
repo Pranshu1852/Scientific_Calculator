@@ -118,6 +118,7 @@ class Calculator{
         this.functionFlag=false;
         this.degFlag=true;
         this.secondFunctionality=false;
+        this.historyFlag=false;
         this.initiateEventListener();
     }
 
@@ -126,12 +127,22 @@ class Calculator{
             element.addEventListener('click',(event)=>{
                 this.handleButtonClick(element);
             });
-        })
+        });
 
         document.addEventListener('click',(event)=>{
             if(!(event.target.className==="row3__btn--trigno btn"||event.target.className==="row3__btn--function btn")){
                 this.closeTogglebuttons();
             }
+        });
+
+        document.querySelector('.btn--history').addEventListener('click',(e)=>{
+            this.historyFlag=!this.historyFlag;
+            this.toggleHistory();
+        })
+        
+        document.querySelector('.btn--clearHistory').addEventListener('click',(e)=>{
+            localStorage.removeItem('storedHistory');
+            this.getHistory();
         })
     }
 
@@ -195,10 +206,6 @@ class Calculator{
                 }
                 case '10x':{
                     this.powerOften();
-                    break;
-                }
-                case '=':{
-                    this.calculate();
                     break;
                 }
                 case 'M+':{
@@ -273,6 +280,10 @@ class Calculator{
                     this.addToinput('√');
                     break;
                 }
+                case '=':{
+                    this.calculate();
+                    break;
+                }
                 default:{
                     this.addToinput(buttonText);
                 }
@@ -283,9 +294,12 @@ class Calculator{
     }
 
     calculate(){
-        try{  
-            const result=eval(finalString(this.display.value,this.degFlag,this.secondFunctionality));
+        try{ 
+            const originalinput=this.display.value;
+            const finalInput=finalString(originalinput,this.degFlag,this.secondFunctionality);
+            const result=eval(finalInput);
             this.display.value=result;
+            this.addHistory(originalinput,result);
         }catch(error){
             this.displayError();
         }
@@ -406,6 +420,53 @@ class Calculator{
             button1.querySelector('sup').textContent=2;
             button2.querySelector('sup').textContent=2;
         }
+    }
+
+    toggleHistory(){
+        const historyContainer=document.querySelector('.calculator__history');
+        const display=document.querySelector('.calculator__display');
+        const keypad=document.querySelector('.calculator__keypad');
+        const historyHeading=document.querySelector('.history__heading');
+        const calculator=document.querySelector('.calculator');
+        const deleteHistorybtn=document.querySelector('.btn--clearHistory');
+        if(this.historyFlag){
+            historyContainer.style.display='flex';
+            display.style.display='none';
+            keypad.style.display='none';
+            calculator.style.justifyContent='space-between';
+            historyHeading.style.display='inline';
+            deleteHistorybtn.style.display='inline';
+            this.getHistory();
+        }
+        else{
+            historyContainer.style.display='none';
+            display.style.display='flex';
+            keypad.style.display='grid';
+            historyHeading.style.display='none';
+            deleteHistorybtn.style.display='none';
+        }
+    }
+    
+    getHistory(){
+        let historyArray=JSON.parse(localStorage.getItem('storedHistory'))||[];
+        const historyContainer=document.querySelector('.calculator__history');
+        historyContainer.innerHTML="";
+    
+        const newList=document.createElement('ul');
+        historyContainer.append(newList);
+    
+        historyArray.map((value)=>{
+            const listitem=document.createElement('li');
+            listitem.append(value);
+            newList.append(listitem);
+        })
+    }
+    
+    addHistory(str, result){
+        let historyArray=JSON.parse(localStorage.getItem('storedHistory'))||[];
+        let historystring=str+" = "+result;
+        historyArray.push(historystring);
+        localStorage.setItem('storedHistory',JSON.stringify(historyArray));
     }
 }
 
