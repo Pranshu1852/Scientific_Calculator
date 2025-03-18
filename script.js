@@ -69,6 +69,7 @@ const operatorReplacer={
         return inputString.replace(/(\d)e(\d)/g,"$1*Math.E*$2")
                     .replace(/(\d)e\b/g,"$1*Math.E")
                     .replace(/\be(\d)/g,"Math.E*$1")
+                    .replace(/\.e\+/g,"e")
                     .replace(/\be\b/g,"Math.E");
     },
 
@@ -96,6 +97,11 @@ const operatorReplacer={
     replaceFunctions(inputString){
         return inputString.replace('ceil','Math.ceil')
                           .replace('floor','Math.floor');
+    },
+
+    replaceBrackets(inputString){
+        return inputString.replace(/(\d)\(/g,"$1*(")
+                          .replace(/\)(\d)/g,")*$1");
     }
 }
 
@@ -107,6 +113,7 @@ function finalString(inputString,degFlag,secondFunctionality){
     replacedString=operatorReplacer.replaceeuler(replacedString);
     replacedString=operatorReplacer.replacetrigno(replacedString,degFlag);
     replacedString=operatorReplacer.replaceFunctions(replacedString);
+    replacedString=operatorReplacer.replaceBrackets(replacedString);
     return replacedString;
 }
 
@@ -119,7 +126,9 @@ class Calculator{
         this.degFlag=true;
         this.secondFunctionality=false;
         this.historyFlag=false;
+        this.toggledark=false;
         this.initiateEventListener();
+        this.updateMemorybutton();
     }
 
     initiateEventListener(){
@@ -135,14 +144,23 @@ class Calculator{
             }
         });
 
-        document.querySelector('.btn--history').addEventListener('click',(e)=>{
+        document.querySelector('.btn--history').addEventListener('click',(event)=>{
             this.historyFlag=!this.historyFlag;
             this.toggleHistory();
         })
         
-        document.querySelector('.btn--clearHistory').addEventListener('click',(e)=>{
+        document.querySelector('.btn--clearHistory').addEventListener('click',(event)=>{
             localStorage.removeItem('storedHistory');
             this.getHistory();
+        })
+
+        document.querySelector('.btn--theme').addEventListener('click',(event)=>{
+            this.toggledark=!this.toggledark;
+            this.toggleTheme();
+        })
+
+        document.addEventListener('keydown',(event)=>{
+            this.handleKeyboardinput(event.key);
         })
     }
 
@@ -284,6 +302,10 @@ class Calculator{
                     this.calculate();
                     break;
                 }
+                case 'F-E':{
+                    this.convertFixedToExponent();
+                    break;
+                }
                 default:{
                     this.addToinput(buttonText);
                 }
@@ -293,10 +315,28 @@ class Calculator{
         }
     }
 
+    handleKeyboardinput(value){
+        let regex=/[0-9\|\^\(\)\.\+\-\%\!\/\*]/g;
+        
+        if(regex.test(value)){
+            console.log("inside");
+            
+            this.addToinput(value);
+        }
+        else if(value==="Backspace"){
+            this.handleBackspace();
+        }
+        else if(value==="Enter"){
+            this.calculate();
+        }
+    }
+
     calculate(){
         try{ 
             const originalinput=this.display.value;
             const finalInput=finalString(originalinput,this.degFlag,this.secondFunctionality);
+            console.log(finalInput);
+            
             const result=eval(finalInput);
             this.display.value=result;
             this.addHistory(originalinput,result);
@@ -367,6 +407,45 @@ class Calculator{
         }
         else{
             this.display.value+='10^';
+        }
+    }
+
+    convertFixedToExponent(){
+        let regexfe=/(\d+)\.?(\d*)$/g;
+        if(regexfe.test(this.display.value)){
+            this.display.value=this.display.value.replace(regexfe,(match,num1,num2)=>{
+                console.log(num1+" "+num2);
+                if(num2===""){
+                    console.log("inside");
+                    
+                    if(num1.length>1){
+                        let firstnum=num1[0];
+                        let remaining=num1.slice(1,num1.length);
+                        let exponential=remaining.length;
+                        if(+remaining===0){
+                            remaining='0';
+                        }
+                        return firstnum+'.'+remaining+'x10^'+exponential;
+                    }
+                    
+                    return num1+'x10^0';
+                }
+                else if(+num1===0&&+num2!=0){
+                    let start=0;
+                    for(let i=0;i<num2.length;i++){
+                        if(num2[i]!='0'){
+                            start=i;
+                            break;
+                        }
+                    }
+                    num2=num2.slice(start,num2.length);
+
+                    return num2+'x10^-'+num2.length;
+                }
+                else{
+                    return num1+num2+'x10^-'+num2.length;
+                }
+            });
         }
     }
 
@@ -467,6 +546,37 @@ class Calculator{
         let historystring=str+" = "+result;
         historyArray.push(historystring);
         localStorage.setItem('storedHistory',JSON.stringify(historyArray));
+    }
+
+    toggleTheme(){
+        const calculator=document.querySelector('.calculator');
+        
+        if(this.toggledark){
+            document.body.style.backgroundColor="black";
+            calculator.style.backgroundColor="#242424";
+            document.querySelectorAll('button').forEach((element)=>{
+                element.style.color="white";
+            })
+            document.querySelectorAll('.calculator__keypad>button').forEach((element)=>{
+                element.style.backgroundColor="#212121";
+            })
+            document.querySelectorAll('.number').forEach((element)=>{
+                element.style.backgroundColor="black";
+            })
+        }
+        else{
+            document.body.style.backgroundColor="";
+            calculator.style.backgroundColor="";
+            document.querySelectorAll('button').forEach((element)=>{
+                element.style.color="";
+            })
+            document.querySelectorAll('.calculator__keypad>button').forEach((element)=>{
+                element.style.backgroundColor="";
+            })
+            document.querySelectorAll('.number').forEach((element)=>{
+                element.style.backgroundColor="";
+            })
+        }
     }
 }
 
