@@ -14,6 +14,13 @@ const Utilities={
     
     squreRoot(num){
         return Math.sqrt(num);
+    },
+
+    convertTorad(num,degFlag){
+        if(degFlag){
+            return num*Math.PI/180;
+        }
+        return num;
     }
 }
 
@@ -53,14 +60,50 @@ const operatorReplacer={
             str=eval(str);
             return Utilities.squreRoot(+str);
         })
+    },
+
+    replaceeuler(inputString){
+        return inputString.replace(/(\d)e(\d)/g,"$1*Math.E*$2")
+                    .replace(/(\d)e\b/g,"$1*Math.E")
+                    .replace(/\be(\d)/g,"Math.E*$1")
+                    .replace(/\be\b/g,"Math.E");
+    },
+
+    replacetrigno(inputString,degFlag){
+        return inputString.replace(/sin\((.+)\)/g,(match,num)=>{
+            return Math.sin(Utilities.convertTorad(eval(num),degFlag)).toFixed(2);
+        })
+        .replace(/cos\((.+)\)/g,(match,num)=>{
+            return Math.cos(Utilities.convertTorad(eval(num),degFlag)).toFixed(2);
+        })
+        .replace(/tan\((.+)\)/g,(match,num)=>{
+            return Math.sin(Utilities.convertTorad(eval(num),degFlag)).toFixed(2)/Math.cos(Utilities.convertTorad(eval(num),degFlag)).toFixed(2);
+        })
+        .replace(/cosec\((.+)\)/g,(match,num)=>{
+            return (1/Math.sin(Utilities.convertTorad(eval(num),degFlag)).toFixed(2)).toFixed(2);
+        })
+        .replace(/sec\((.+)\)/g,(match,num)=>{
+            return (1/Math.cos(Utilities.convertTorad(eval(num),degFlag)).toFixed(2)).toFixed(2);
+        })
+        .replace(/cot\((.+)\)/g,(match,num)=>{
+            return Math.cos(Utilities.convertTorad(eval(num),degFlag)).toFixed(2)/Math.sin(Utilities.convertTorad(eval(num),degFlag)).toFixed(2);
+        });
+    },
+
+    replaceFunctions(inputString){
+        return inputString.replace('ceil','Math.ceil')
+                          .replace('floor','Math.floor');
     }
 }
 
-function finalString(inputString){
+function finalString(inputString,degFlag){
     let replacedString=operatorReplacer.replaceOperator(inputString);
     replacedString=operatorReplacer.replaceModulus(replacedString);
     replacedString=operatorReplacer.replaceFactorial(replacedString);
     replacedString=operatorReplacer.replaceRoot(replacedString);
+    replacedString=operatorReplacer.replaceeuler(replacedString);
+    replacedString=operatorReplacer.replacetrigno(replacedString,degFlag);
+    replacedString=operatorReplacer.replaceFunctions(replacedString);
     return replacedString;
 }
 
@@ -68,6 +111,9 @@ class Calculator{
     constructor(display){
         this.display=display;
         this.memory=+localStorage.getItem('memoryValue')||0;
+        this.trignoFlag=false;
+        this.functionFlag=false;
+        this.degFlag=true;
         this.initiateEventListener();
     }
 
@@ -76,6 +122,12 @@ class Calculator{
             element.addEventListener('click',(event)=>{
                 this.handleButtonClick(element);
             });
+        })
+
+        document.addEventListener('click',(event)=>{
+            if(!(event.target.className==="row3__btn--trigno btn"||event.target.className==="row3__btn--function btn")){
+                this.closeTogglebuttons();
+            }
         })
     }
 
@@ -145,19 +197,19 @@ class Calculator{
                     break;
                 }
                 case 'M+':{
-                    this.memory+=eval(finalString(this.display.value))||0;
+                    this.memory+=eval(finalString(this.display.value,this.degFlag))||0;
                     localStorage.setItem('memoryValue',this.memory);
                     this.updateMemorybutton();
                     break;
                 }
                 case 'M-':{
-                    this.memory-=eval(finalString(this.displayvalue))||0;
+                    this.memory-=eval(finalString(this.displayvalue,this.degFlag))||0;
                     localStorage.setItem('memoryValue',this.memory);
                     this.updateMemorybutton();
                     break;
                 }
                 case 'MS':{
-                    this.memory=eval(finalString(this.display.value))||0;
+                    this.memory=eval(finalString(this.display.value,this.degFlag))||0;
                     localStorage.setItem('memoryValue',this.memory);
                     this.updateMemorybutton();
                     break;
@@ -172,6 +224,37 @@ class Calculator{
                     this.display.value=this.memory;
                     break;
                 }
+                case 'Trigonometry':{
+                    this.trignoFlag=!this.trignoFlag;
+                    this.toggleTrignobutton();
+                    break;
+                }
+                case '𝑓Function':{
+                    this.functionFlag=!this.functionFlag;
+                    this.toggleFunctionbutton();
+                    break;
+                }
+                case 'DEG':{
+                    this.degFlag=false;
+                    element.textContent='RAD';
+                    break;
+                }
+                case 'RAD':{
+                    this.degFlag=true;
+                    element.textContent='DEG';
+                    break;
+                }
+                case 'sin':
+                case 'cos':
+                case 'tan':
+                case 'cosec':
+                case 'sec':
+                case 'cot':
+                case 'ceil':
+                case 'floor':{
+                    this.addToinput(buttonText+'(');
+                    break;
+                }
                 default:{
                     this.addToinput(buttonText);
                 }
@@ -182,8 +265,10 @@ class Calculator{
     }
 
     calculate(){
-        try{     
-            const result=eval(finalString(this.display.value));
+        try{
+            console.log(finalString(this.display.value,this.degFlag));
+                 
+            const result=eval(finalString(this.display.value,this.degFlag));
             this.display.value=result;
         }catch(error){
             this.displayError();
@@ -232,7 +317,7 @@ class Calculator{
     }
 
     convertToreciprocal(){
-        let regex=/(\d+)$/;
+        let regex=/((\d+)\.?(\d*))$/;
         if(regex.test(this.display.value)){
             this.display.value=this.display.value.replace(regex,(match,num)=>{
                 return '1/'+num;
@@ -244,7 +329,7 @@ class Calculator{
     }
 
     powerOften(){
-        let regex=/(\d+)$/;
+        let regex=/((\d+)\.?(\d*))$/;
         if(regex.test(this.display.value)){
             this.display.value=this.display.value.replace(regex,(match,num)=>{
                 return '10^'+num;
@@ -259,6 +344,37 @@ class Calculator{
         let hasMemory=this.memory===0?false:true;
         document.querySelector('.btn--MC').disabled=!hasMemory;
         document.querySelector('.btn--MR').disabled=!hasMemory;
+    }
+
+    toggleTrignobutton(){
+        const element=document.getElementsByClassName('dropdown--trigno')[0];
+        if(this.trignoFlag){
+            this.functionFlag=false;
+            this.toggleFunctionbutton();
+            element.style.display='grid';
+        }
+        else{
+            element.style.display='none';
+        }
+    }
+    
+    toggleFunctionbutton(){
+        const element=document.getElementsByClassName('dropdown--function')[0];
+        if(this.functionFlag){
+            this.trignoFlag=false;
+            this.toggleTrignobutton();
+            element.style.display='grid';
+        }
+        else{
+            element.style.display='none';
+        }
+    }
+
+    closeTogglebuttons(){
+        this.trignoFlag=false;
+        this.functionFlag=false;
+        this.toggleTrignobutton();
+        this.toggleFunctionbutton();
     }
 }
 

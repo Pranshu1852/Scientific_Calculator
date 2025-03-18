@@ -79,6 +79,10 @@ body {
     justify-content: space-between;
 }
 
+button{
+    cursor: pointer;
+}
+
 .calculator__feature{
     padding: 15px;
     display: flex;
