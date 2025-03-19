@@ -98,11 +98,6 @@ const operatorReplacer={
         return inputString.replace('ceil','Math.ceil')
                           .replace('floor','Math.floor');
     },
-
-    replaceBrackets(inputString){
-        return inputString.replace(/(\d)\(/g,"$1*(")
-                          .replace(/\)(\d)/g,")*$1");
-    }
 }
 
 function finalString(inputString,degFlag,secondFunctionality){
@@ -113,7 +108,6 @@ function finalString(inputString,degFlag,secondFunctionality){
     replacedString=operatorReplacer.replaceeuler(replacedString);
     replacedString=operatorReplacer.replacetrigno(replacedString,degFlag);
     replacedString=operatorReplacer.replaceFunctions(replacedString);
-    replacedString=operatorReplacer.replaceBrackets(replacedString);
     return replacedString;
 }
 
