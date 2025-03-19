@@ -7,6 +7,7 @@
     --color-red: red;
     --color-black:#000;
     --color-blue7:#93c3e6;
+    --shadow-color: #00000034;
     --font-weight-md: 500;
 }
 
@@ -250,16 +251,24 @@ ul{
     height: 100%;
 }
 
-.dropdown--trigno{
+.dropdown--trigno,.dropdown--function{
     position: absolute;
     left: 0;
     z-index: 1;
     display: none;
     background-color: var(--color-white);
-    grid-template-columns: repeat(3,1fr);
     gap: 5px;
     padding: 5px;
     border-radius: 5px;
+    box-shadow: 0px 5px 10px var(--shadow-color);
+}
+
+.dropdown--trigno{
+    grid-template-columns: repeat(3,1fr);
+}
+
+.dropdown--function{
+    grid-template-columns: repeat(2,1fr);
 }
 
 .dropdown--trigno>button,.dropdown--function>button{
@@ -276,17 +285,6 @@ ul{
     height: 100%;
 }
 
-.dropdown--function{
-    position: absolute;
-    left: 0;
-    z-index: 1;
-    display: none;
-    background-color: var(--color-white);
-    grid-template-columns: repeat(2,1fr);
-    gap: 2.5px;
-    padding: 5px;
-    border-radius: 5px;
-}
 
 .row3__btn--trigno,.row3__btn--function{
     display: flex;
