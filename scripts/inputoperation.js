@@ -32,7 +32,7 @@ const inputOperation={
 
     // To remove ERROR/ Last character from display
     handleBackspace(){
-        if(this.display.value===ERROR_MESSAGE){
+        if(this.display.value===ERROR_MESSAGE || this.display.value === ""){
             this.display.value="";
         }
         else{
