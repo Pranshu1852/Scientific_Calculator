@@ -3,6 +3,11 @@ const ERROR_MESSAGE = "ERROR";
 const inputOperation={
     // To add value/operator/ERROR in display 
     addToinput(value){
+        if (typeof value !== 'string') {
+            console.error("Invalid input: Value must be a string.");
+            return;
+        }
+
         if(this.display.value===ERROR_MESSAGE){
             this.display.value=value;
         }

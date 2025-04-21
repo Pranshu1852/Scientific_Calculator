@@ -5,8 +5,6 @@ function handleKeyboardinput(value){
     let regex=/[0-9\|\^\(\)\.\+\-\%\!\/\*]/g;
     
     if(regex.test(value)){
-        console.log("inside");
-        
         inputOperation.addToinput.call(this,value);
     }
     else if(value==="Backspace"){
