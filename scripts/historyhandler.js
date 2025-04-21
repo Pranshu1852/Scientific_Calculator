@@ -1,30 +1,38 @@
 const historyHandler={
     // To toggle the history container
     toggleHistory(historyFlag){
-        const historyContainer=document.querySelector('.calculator__history');
-        const display=document.querySelector('.calculator__display');
-        const keypad=document.querySelector('.calculator__keypad');
-        const historyHeading=document.querySelector('.history__heading');
-        const calculator=document.querySelector('.calculator');
-        const deleteHistorybtn=document.querySelector('.btn--clearHistory');
+        const elements = {
+            historyContainer: document.querySelector('.calculator__history'),
+            display: document.querySelector('.calculator__display'),
+            keypad: document.querySelector('.calculator__keypad'),
+            historyHeading: document.querySelector('.history__heading'),
+            calculator: document.querySelector('.calculator'),
+            deleteHistorybtn: document.querySelector('.btn--clearHistory')
+        };
+
+        if (!elements.historyContainer || !elements.display || !elements.keypad || !elements.calculator || !elements.historyHeading || !elements.deleteHistorybtn) {
+            console.error("One or more required elements are missing from the DOM.");
+            return;
+        }
+               
         if(historyFlag){
-            historyContainer.style.display='flex';
-            display.style.display='none';
-            keypad.style.display='none';
-            calculator.style.justifyContent='space-between';
-            historyHeading.style.display='inline';
-            deleteHistorybtn.style.display='inline';
+            elements.historyContainer.style.display='flex';
+            elements.display.style.display='none';
+            elements.keypad.style.display='none';
+            elements.calculator.style.justifyContent='space-between';
+            elements.historyHeading.style.display='inline';
+            elements.deleteHistorybtn.style.display='inline';
             this.getHistory();
-            if(historyContainer.offsetHeight<historyContainer.scrollHeight){
-                historyContainer.scrollTo(0,historyContainer.scrollHeight)
+            if(elements.historyContainer.offsetHeight<elements.historyContainer.scrollHeight){
+                elements.historyContainer.scrollTo(0,elements.historyContainer.scrollHeight)
             }
         }
         else{
-            historyContainer.style.display='none';
-            display.style.display='flex';
-            keypad.style.display='grid';
-            historyHeading.style.display='none';
-            deleteHistorybtn.style.display='none';
+            elements.historyContainer.style.display='none';
+            elements.display.style.display='flex';
+            elements.keypad.style.display='grid';
+            elements.historyHeading.style.display='none';
+            elements.deleteHistorybtn.style.display='none';
         }
     },
     
