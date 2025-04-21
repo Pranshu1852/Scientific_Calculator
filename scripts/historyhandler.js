@@ -30,26 +30,34 @@ const historyHandler={
     
     // To create each history element into history container
     getHistory(){
-        let historyArray=JSON.parse(localStorage.getItem('storedHistory'))||[];
-        const historyContainer=document.querySelector('.calculator__history');
-        historyContainer.innerHTML="";
-    
-        const newList=document.createElement('ul');
-        historyContainer.append(newList);
-    
-        historyArray.map((value)=>{
-            const listitem=document.createElement('li');
-            listitem.append(value);
-            newList.append(listitem);
-        })
+        try {
+            let historyArray=JSON.parse(localStorage.getItem('storedHistory'))||[];
+            const historyContainer=document.querySelector('.calculator__history');
+            historyContainer.innerHTML="";
+        
+            const newList=document.createElement('ul');
+            historyContainer.append(newList);
+        
+            historyArray.map((value)=>{
+                const listitem=document.createElement('li');
+                listitem.append(value);
+                newList.append(listitem);
+            });
+        } catch (error) {
+            console.error("Failed to load history from localStorage:", error);
+        }
     },
     
     // To add the result and expression into the history
     addHistory(str, result){
-        let historyArray=JSON.parse(localStorage.getItem('storedHistory'))||[];
-        let historystring=str+" = "+result;
-        historyArray.push(historystring);
-        localStorage.setItem('storedHistory',JSON.stringify(historyArray));
+        try {
+            let historyArray=JSON.parse(localStorage.getItem('storedHistory'))||[];
+            let historystring=str+" = "+result;
+            historyArray.push(historystring);
+            localStorage.setItem('storedHistory',JSON.stringify(historyArray));
+        } catch (error) {
+            console.error("Failed to add history to localStorage:", error);
+        }
     }
 }
 
