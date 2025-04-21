@@ -1,7 +1,9 @@
+const ERROR_MESSAGE = "ERROR";
+
 const inputOperation={
     // To add value/operator/ERROR in display 
     addToinput(value){
-        if(this.display.value==="ERROR"){
+        if(this.display.value===ERROR_MESSAGE){
             this.display.value=value;
         }
         else{
@@ -20,12 +22,12 @@ const inputOperation={
 
     // To show ERROR in display
     displayError(){
-        this.display.value="ERROR";
+        this.display.value=ERROR_MESSAGE;
     },
 
     // To remove ERROR/ Last character from display
     handleBackspace(){
-        if(this.display.value==='ERROR'){
+        if(this.display.value===ERROR_MESSAGE){
             this.display.value="";
         }
         else{
