@@ -1,5 +1,11 @@
 import Utilities from "./utilities.js";
 
+const REGEX={
+    MODULUS: /\|(.+)\|/g,
+    FACTORIAL: /(\d+)!/g,
+    ROOT: /√(\d+)|√\(?(\d+)(.\d+)?\)?/g, 
+}
+
 // To replace operators in string
 const operatorReplacer={
     replaceOperator(inputString){
@@ -12,7 +18,7 @@ const operatorReplacer={
     },
 
     replaceModulus(inputString){
-        let regexmodulus=/\|(.+)\|/g;
+        let regexmodulus=REGEX.MODULUS;
         return inputString.replace(regexmodulus,(match,num)=>{
             let result=eval(num);
             if(result<0){
@@ -23,14 +29,14 @@ const operatorReplacer={
     },
 
     replaceFactorial(inputString){
-        let regex=/(\d+)!/g;
+        let regex=REGEX.FACTORIAL;
         return inputString.replace(regex,(match,num)=>{
             return Utilities.factorial(+num);
         });
     },
 
     replaceRoot(inputString,secondFunctionality){
-        let regexroot=/√(\d+)|√\(?(\d+)(.\d+)?\)?/g;
+        let regexroot=REGEX.ROOT;
         return inputString.replace(regexroot,(match,num)=>{
             console.log(match);
             let str=match.substring(1,match.length);
