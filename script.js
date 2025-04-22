@@ -3,12 +3,13 @@ import historyHandler from "./scripts/historyhandler.js";
 import toggleTheme from "./scripts/themehandler.js";
 import handleKeyboardinput from "./scripts/keyboardhandler.js";
 import memoryHandler from "./scripts/memoryhandler.js";
-import inputOperation from "./scripts/inputoperation.js";
+import InputOperation from "./scripts/inputoperation.js";
 import toggleHandler,{toggleTrignobutton,toggleFunctionbutton,closeTogglebuttons} from "./scripts/togglehandler.js";
 
 class Calculator{
     constructor(display){
         this.display=display;
+        this.inputOperation=new InputOperation(display);
         this.memory=+localStorage.getItem('memoryValue')||0;
         this.trignoFlag=false;
         this.functionFlag=false;
@@ -59,11 +60,11 @@ class Calculator{
         try{
             switch(buttonText){
                 case 'back':{
-                    inputOperation.handleBackspace.call(this);
+                    this.inputOperation.handleBackspace();
                     break;
                 }
                 case 'C':{
-                    inputOperation.clearDisplay.call(this);
+                    this.inputOperation.clearDisplay();
                     break;
                 }
                 case '+/-':{
@@ -75,40 +76,40 @@ class Calculator{
                     break;
                 }
                 case 'mod':{
-                    inputOperation.addToinput.call(this,'%');
+                    this.inputOperation.addToinput('%');
                     break;
                 }
                 case 'log':{
-                    inputOperation.addToinput.call(this,'log(');
+                    this.inputOperation.addToinput('log(');
                     break;
                 }
                 case 'ln':{
-                    inputOperation.addToinput.call(this,'ln(');
+                    this.inputOperation.addToinput('ln(');
                     break;
                 }
                 case 'x2':{
-                    inputOperation.addToinput.call(this,'^2');
+                    this.inputOperation.addToinput('^2');
                     break;
                 }
                 case '2√x':
                 case '3√x':{
-                    inputOperation.addToinput.call(this,'√');
+                    this.inputOperation.addToinput('√');
                     break;
                 }
                 case 'xy':{
-                    inputOperation.addToinput.call(this,'^');
+                    this.inputOperation.addToinput('^');
                     break;
                 }
                 case '|x|':{
-                    inputOperation.addToinput.call(this,'|');
+                    this.inputOperation.addToinput('|');
                     break;
                 }
                 case 'n!':{
-                    inputOperation.addToinput.call(this,'!');
+                    this.inputOperation.addToinput('!');
                     break;
                 }
                 case 'exp':{
-                    inputOperation.addToinput.call(this,'.e+');
+                    this.inputOperation.addToinput('.e+');
                     break;
                 }
                 case '10x':{
@@ -116,17 +117,17 @@ class Calculator{
                     break;
                 }
                 case 'M+':{
-                    memoryHandler.addMemory.call(this,finalString(this.display.value,this.degFlag,this.secondFunctionality));
+                    memoryHandler.addMemory.call(this,finalString(this.displayValue,this.degFlag,this.secondFunctionality));
                     memoryHandler.updateMemorybutton.call(this);
                     break;
                 }
                 case 'M-':{
-                    memoryHandler.subtractMemory.call(this,finalString(this.displayvalue,this.degFlag,this.secondFunctionality));
+                    memoryHandler.subtractMemory.call(this,finalString(this.displayValue,this.degFlag,this.secondFunctionality));
                     memoryHandler.updateMemorybutton.call(this);
                     break;
                 }
                 case 'MS':{
-                    memoryHandler.storeMemory.call(this,finalString(this.display.value,this.degFlag,this.secondFunctionality));
+                    memoryHandler.storeMemory.call(this,finalString(this.displayValue,this.degFlag,this.secondFunctionality));
                     memoryHandler.updateMemorybutton.call(this);
                     break;
                 }
@@ -136,7 +137,7 @@ class Calculator{
                     break;
                 }
                 case 'MR':{
-                    this.display.value=this.memory;
+                    this.displayValue=this.memory;
                     break;
                 }
                 case 'Trigonometry':{
@@ -167,7 +168,7 @@ class Calculator{
                 case 'cot':
                 case 'ceil':
                 case 'floor':{
-                    inputOperation.addToinput.call(this,buttonText+'(');
+                    this.inputOperation.addToinput(buttonText+'(');
                     break;
                 }
                 case '2nd':{
@@ -176,7 +177,7 @@ class Calculator{
                     break;
                 }
                 case 'x3':{
-                    inputOperation.addToinput.call(this,'^3');
+                    this.inputOperation.addToinput('^3');
                     break;
                 }
                 case '=':{
@@ -188,7 +189,7 @@ class Calculator{
                     break;
                 }
                 default:{
-                    inputOperation.addToinput.call(this,buttonText);
+                    this.inputOperation.addToinput(buttonText);
                 }
             }
         }catch{
@@ -198,15 +199,23 @@ class Calculator{
 
     calculate(){
         try{ 
-            const originalinput=this.display.value;
+            const originalinput=this.displayValue;
             const finalInput=finalString(originalinput,this.degFlag,this.secondFunctionality);
             
             const result=eval(finalInput);
-            this.display.value=result;
+            this.displayValue=result;
             historyHandler.addHistory(originalinput,result);
         }catch(error){
-            inputOperation.displayError.call(this);
+            this.inputOperation.displayError();
         }
+    }
+
+    get displayValue() {
+        return this.display.value;
+    }
+        
+    set displayValue(value) {
+        this.display.value = value;
     }
 }
 
