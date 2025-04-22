@@ -1,5 +1,8 @@
 import Calculator from "../script";
 
+const MC_BUTTON_SELECTOR = '.btn--MC';
+const MR_BUTTON_SELECTOR = '.btn--MR';
+
 interface memoryHandler{
     addMemory: (this: Calculator,String: string)=>void,
     subtractMemory: (this: Calculator,String: string)=>void,
@@ -36,8 +39,8 @@ const memoryHandler: memoryHandler={
     // To update the MC and MR button when there is some value in memory
     updateMemorybutton(){
         let hasMemory=this.memory===0?false:true;
-        (document.querySelector('.btn--MC')! as HTMLButtonElement).disabled=!hasMemory;
-        (document.querySelector('.btn--MR')! as HTMLButtonElement).disabled=!hasMemory;
+        (document.querySelector(MC_BUTTON_SELECTOR)! as HTMLButtonElement).disabled=!hasMemory;
+        (document.querySelector(MR_BUTTON_SELECTOR)! as HTMLButtonElement).disabled=!hasMemory;
     }
 }
 

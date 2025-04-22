@@ -1,3 +1,5 @@
+const MC_BUTTON_SELECTOR = '.btn--MC';
+const MR_BUTTON_SELECTOR = '.btn--MR';
 const memoryHandler = {
     // To add the value into memory
     addMemory(inputStr) {
@@ -22,8 +24,8 @@ const memoryHandler = {
     // To update the MC and MR button when there is some value in memory
     updateMemorybutton() {
         let hasMemory = this.memory === 0 ? false : true;
-        document.querySelector('.btn--MC').disabled = !hasMemory;
-        document.querySelector('.btn--MR').disabled = !hasMemory;
+        document.querySelector(MC_BUTTON_SELECTOR).disabled = !hasMemory;
+        document.querySelector(MR_BUTTON_SELECTOR).disabled = !hasMemory;
     }
 };
 export default memoryHandler;
