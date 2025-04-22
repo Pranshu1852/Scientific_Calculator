@@ -125,17 +125,17 @@ class Calculator{
                     break;
                 }
                 case 'M+':{
-                    memoryHandler.addMemory.call(this,finalString(this.display.value,this.degFlag,this.secondFunctionality));
+                    memoryHandler.addMemory.call(this,finalString(this.displayValue,this.degFlag,this.secondFunctionality));
                     memoryHandler.updateMemorybutton.call(this);
                     break;
                 }
                 case 'M-':{
-                    memoryHandler.subtractMemory.call(this,finalString(this.display.value,this.degFlag,this.secondFunctionality));
+                    memoryHandler.subtractMemory.call(this,finalString(this.displayValue,this.degFlag,this.secondFunctionality));
                     memoryHandler.updateMemorybutton.call(this);
                     break;
                 }
                 case 'MS':{
-                    memoryHandler.storeMemory.call(this,finalString(this.display.value,this.degFlag,this.secondFunctionality));
+                    memoryHandler.storeMemory.call(this,finalString(this.displayValue,this.degFlag,this.secondFunctionality));
                     memoryHandler.updateMemorybutton.call(this);
                     break;
                 }
@@ -145,7 +145,7 @@ class Calculator{
                     break;
                 }
                 case 'MR':{
-                    this.display.value=this.memory.toString();
+                    this.displayValue=this.memory.toString();
                     break;
                 }
                 case 'Trigonometry':{
@@ -207,15 +207,23 @@ class Calculator{
 
     calculate(){
         try{ 
-            const originalinput=this.display.value;
+            const originalinput=this.displayValue;
             const finalInput=finalString(originalinput,this.degFlag,this.secondFunctionality);
             
             const result=eval(finalInput);
-            this.display.value=result;
+            this.displayValue=result;
             historyHandler.addHistory(originalinput,result);
         }catch(error){
             inputOperation.displayError.call(this);
         }
+    }
+
+    get displayValue() {
+        return this.display.value;
+    }
+        
+    set displayValue(value) {
+        this.display.value = value;
     }
 }
 
