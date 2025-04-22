@@ -21,9 +21,20 @@ const REGEX={
     } 
 }
 
+function validateInput(inputString) {
+    try {
+        if (typeof inputString !== 'string') {
+            throw new Error('Input must be a string.');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 // To replace operators in string
 const operatorReplacer={
     replaceOperator(inputString){
+        validateInput(inputString);
         return inputString.replaceAll('x','*')
                       .replaceAll('π','Math.PI')
                       .replaceAll('÷','/')
@@ -33,6 +44,7 @@ const operatorReplacer={
     },
 
     replaceModulus(inputString){
+        validateInput(inputString);
         let regexmodulus=REGEX.MODULUS;
         return inputString.replace(regexmodulus,(match,num)=>{
             let result=eval(num);
@@ -44,6 +56,7 @@ const operatorReplacer={
     },
 
     replaceFactorial(inputString){
+        validateInput(inputString);
         let regex=REGEX.FACTORIAL;
         return inputString.replace(regex,(match,num)=>{
             return Utilities.factorial(+num);
@@ -51,6 +64,7 @@ const operatorReplacer={
     },
 
     replaceRoot(inputString,secondFunctionality){
+        validateInput(inputString);
         let regexroot=REGEX.ROOT;
         return inputString.replace(regexroot,(match,num)=>{
             console.log(match);
@@ -61,6 +75,7 @@ const operatorReplacer={
     },
 
     replaceeuler(inputString){
+        validateInput(inputString);
         return inputString.replace(REGEX.EULER.DIGIT_e_DIGIT,"$1*Math.E*$2")
                     .replace(REGEX.EULER.DIGIT_e,"$1*Math.E")
                     .replace(REGEX.EULER.e_DIGIT,"Math.E*$1")
@@ -69,6 +84,7 @@ const operatorReplacer={
     },
 
     replacetrigno(inputString,degFlag){
+        validateInput(inputString);
         return inputString.replace(REGEX.TRIGNO.SIN,(match,num)=>{
             return Math.sin(Utilities.convertTorad(eval(num),degFlag)).toFixed(2);
         })
@@ -90,6 +106,7 @@ const operatorReplacer={
     },
 
     replaceFunctions(inputString){
+        validateInput(inputString);
         return inputString.replaceAll('ceil','Math.ceil')
                           .replaceAll('floor','Math.floor');
     },
@@ -97,6 +114,7 @@ const operatorReplacer={
 
 // To generate final string that goes into eval
 function finalString(inputString,degFlag,secondFunctionality){
+    validateInput(inputString);
     let replacedString=operatorReplacer.replaceOperator(inputString);
     replacedString=operatorReplacer.replaceModulus(replacedString);
     replacedString=operatorReplacer.replaceFactorial(replacedString);
