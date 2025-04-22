@@ -3,7 +3,22 @@ import Utilities from "./utilities.js";
 const REGEX={
     MODULUS: /\|(.+)\|/g,
     FACTORIAL: /(\d+)!/g,
-    ROOT: /√(\d+)|√\(?(\d+)(.\d+)?\)?/g, 
+    ROOT: /√(\d+)|√\(?(\d+)(.\d+)?\)?/g,
+    EULER: {
+        DIGIT_e_DIGIT: /(\d)e(\d)/g,
+        DIGIT_e: /(\d)e\b/g,
+        e_DIGIT: /\be(\d)/g,
+        _e_: /\be\b/g,
+        ANY_e_ANY: /\.e\+/g
+    },
+    TRIGNO: {
+        SIN: /sin\((.+)\)/g,
+        COS: /cos\((.+)\)/g,
+        TAN: /tan\((.+)\)/g,
+        COSEC: /cosec\((.+)\)/g,
+        SEC: /sec\((.+)\)/g,
+        COT: /cot\((.+)\)/g
+    } 
 }
 
 // To replace operators in string
@@ -46,30 +61,30 @@ const operatorReplacer={
     },
 
     replaceeuler(inputString){
-        return inputString.replace(/(\d)e(\d)/g,"$1*Math.E*$2")
-                    .replace(/(\d)e\b/g,"$1*Math.E")
-                    .replace(/\be(\d)/g,"Math.E*$1")
-                    .replace(/\.e\+/g,"e")
-                    .replace(/\be\b/g,"Math.E");
+        return inputString.replace(REGEX.EULER.DIGIT_e_DIGIT,"$1*Math.E*$2")
+                    .replace(REGEX.EULER.DIGIT_e,"$1*Math.E")
+                    .replace(REGEX.EULER.e_DIGIT,"Math.E*$1")
+                    .replace(REGEX.EULER.ANY_e_ANY,"e")
+                    .replace(REGEX.EULER._e_,"Math.E");
     },
 
     replacetrigno(inputString,degFlag){
-        return inputString.replace(/sin\((.+)\)/g,(match,num)=>{
+        return inputString.replace(REGEX.TRIGNO.SIN,(match,num)=>{
             return Math.sin(Utilities.convertTorad(eval(num),degFlag)).toFixed(2);
         })
-        .replace(/cos\((.+)\)/g,(match,num)=>{
+        .replace(REGEX.TRIGNO.COS,(match,num)=>{
             return Math.cos(Utilities.convertTorad(eval(num),degFlag)).toFixed(2);
         })
-        .replace(/tan\((.+)\)/g,(match,num)=>{
+        .replace(REGEX.TRIGNO.TAN,(match,num)=>{
             return Math.sin(Utilities.convertTorad(eval(num),degFlag)).toFixed(2)/Math.cos(Utilities.convertTorad(eval(num),degFlag)).toFixed(2);
         })
-        .replace(/cosec\((.+)\)/g,(match,num)=>{
+        .replace(REGEX.TRIGNO.COSEC,(match,num)=>{
             return (1/Math.sin(Utilities.convertTorad(eval(num),degFlag)).toFixed(2)).toFixed(2);
         })
-        .replace(/sec\((.+)\)/g,(match,num)=>{
+        .replace(REGEX.TRIGNO.SEC,(match,num)=>{
             return (1/Math.cos(Utilities.convertTorad(eval(num),degFlag)).toFixed(2)).toFixed(2);
         })
-        .replace(/cot\((.+)\)/g,(match,num)=>{
+        .replace(REGEX.TRIGNO.COT,(match,num)=>{
             return Math.cos(Utilities.convertTorad(eval(num),degFlag)).toFixed(2)/Math.sin(Utilities.convertTorad(eval(num),degFlag)).toFixed(2);
         });
     },
