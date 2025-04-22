@@ -3,13 +3,13 @@ const toggleHandler = {
     toggleSign() {
         let regex = /(\d+)$/;
         let regexnot = /\(\-(\d+)\)$/;
-        if (regex.test(this.display.value)) {
-            this.display.value = this.display.value.replace(regex, (match, num) => {
+        if (regex.test(this.displayValue)) {
+            this.displayValue = this.displayValue.replace(regex, (match, num) => {
                 return '(-' + num + ')';
             });
         }
-        else if (regexnot.test(this.display.value)) {
-            this.display.value = this.display.value.replace(regexnot, (match, num) => {
+        else if (regexnot.test(this.displayValue)) {
+            this.displayValue = this.displayValue.replace(regexnot, (match, num) => {
                 return num;
             });
         }
@@ -17,32 +17,32 @@ const toggleHandler = {
     // To covert last number to reciprocal
     convertToreciprocal() {
         let regex = /((\d+)\.?(\d*))$/;
-        if (regex.test(this.display.value)) {
-            this.display.value = this.display.value.replace(regex, (match, num) => {
+        if (regex.test(this.displayValue)) {
+            this.displayValue = this.displayValue.replace(regex, (match, num) => {
                 return '1/' + num;
             });
         }
         else {
-            this.display.value += '1/';
+            this.displayValue += '1/';
         }
     },
     // To convert last number into 10^number
     powerOften() {
         let regex = /((\d+)\.?(\d*))$/;
-        if (regex.test(this.display.value)) {
-            this.display.value = this.display.value.replace(regex, (match, num) => {
+        if (regex.test(this.displayValue)) {
+            this.displayValue = this.displayValue.replace(regex, (match, num) => {
                 return '10^' + num;
             });
         }
         else {
-            this.display.value += '10^';
+            this.displayValue += '10^';
         }
     },
     // To toggle from Fixed to exponent
     convertFixedToExponent() {
         let regexfe = /(\d+)\.?(\d*)$/g;
-        if (regexfe.test(this.display.value)) {
-            this.display.value = this.display.value.replace(regexfe, (match, num1, num2) => {
+        if (regexfe.test(this.displayValue)) {
+            this.displayValue = this.displayValue.replace(regexfe, (match, num1, num2) => {
                 console.log(num1 + " " + num2);
                 if (num2 === "") {
                     console.log("inside");
