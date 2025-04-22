@@ -1,5 +1,4 @@
 import Calculator from "../script";
-import inputOperation from "./inputoperation.js";
 
 // To handle keyboard input
 function handleKeyboardinput(this: Calculator,value: string):void {
@@ -8,10 +7,10 @@ function handleKeyboardinput(this: Calculator,value: string):void {
     if(regex.test(value)){
         console.log("inside");
         
-        inputOperation.addToinput.call(this,value);
+        this.inputOperation.addToinput(value);
     }
     else if(value==="Backspace"){
-        inputOperation.handleBackspace.call(this);
+        this.inputOperation.handleBackspace();
     }
     else if(value==="Enter"){
         this.calculate();

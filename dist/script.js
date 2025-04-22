@@ -3,11 +3,12 @@ import historyHandler from "./scripts/historyhandler.js";
 import toggleTheme from "./scripts/themehandler.js";
 import handleKeyboardinput from "./scripts/keyboardhandler.js";
 import memoryHandler from "./scripts/memoryhandler.js";
-import inputOperation from "./scripts/inputoperation.js";
+import InputOperation from "./scripts/inputoperation.js";
 import toggleHandler, { toggleTrignobutton, toggleFunctionbutton, closeTogglebuttons } from "./scripts/togglehandler.js";
 class Calculator {
     constructor(display) {
         this.display = display;
+        this.inputOperation = new InputOperation(display);
         this.memory = localStorage.getItem('memoryValue') ? Number(localStorage.getItem('memoryValue')) : 0;
         this.trignoFlag = false;
         this.functionFlag = false;
@@ -50,11 +51,11 @@ class Calculator {
         try {
             switch (buttonText) {
                 case 'back': {
-                    inputOperation.handleBackspace.call(this);
+                    this.inputOperation.handleBackspace();
                     break;
                 }
                 case 'C': {
-                    inputOperation.clearDisplay.call(this);
+                    this.inputOperation.clearDisplay();
                     break;
                 }
                 case '+/-': {
@@ -66,40 +67,40 @@ class Calculator {
                     break;
                 }
                 case 'mod': {
-                    inputOperation.addToinput.call(this, '%');
+                    this.inputOperation.addToinput('%');
                     break;
                 }
                 case 'log': {
-                    inputOperation.addToinput.call(this, 'log(');
+                    this.inputOperation.addToinput('log(');
                     break;
                 }
                 case 'ln': {
-                    inputOperation.addToinput.call(this, 'ln(');
+                    this.inputOperation.addToinput('ln(');
                     break;
                 }
                 case 'x2': {
-                    inputOperation.addToinput.call(this, '^2');
+                    this.inputOperation.addToinput('^2');
                     break;
                 }
                 case '2√x':
                 case '3√x': {
-                    inputOperation.addToinput.call(this, '√');
+                    this.inputOperation.addToinput('√');
                     break;
                 }
                 case 'xy': {
-                    inputOperation.addToinput.call(this, '^');
+                    this.inputOperation.addToinput('^');
                     break;
                 }
                 case '|x|': {
-                    inputOperation.addToinput.call(this, '|');
+                    this.inputOperation.addToinput('|');
                     break;
                 }
                 case 'n!': {
-                    inputOperation.addToinput.call(this, '!');
+                    this.inputOperation.addToinput('!');
                     break;
                 }
                 case 'exp': {
-                    inputOperation.addToinput.call(this, '.e+');
+                    this.inputOperation.addToinput('.e+');
                     break;
                 }
                 case '10x': {
@@ -158,7 +159,7 @@ class Calculator {
                 case 'cot':
                 case 'ceil':
                 case 'floor': {
-                    inputOperation.addToinput.call(this, buttonText + '(');
+                    this.inputOperation.addToinput(buttonText + '(');
                     break;
                 }
                 case '2nd': {
@@ -167,7 +168,7 @@ class Calculator {
                     break;
                 }
                 case 'x3': {
-                    inputOperation.addToinput.call(this, '^3');
+                    this.inputOperation.addToinput('^3');
                     break;
                 }
                 case '=': {
@@ -179,7 +180,7 @@ class Calculator {
                     break;
                 }
                 default: {
-                    inputOperation.addToinput.call(this, buttonText);
+                    this.inputOperation.addToinput(buttonText);
                 }
             }
         }
@@ -196,7 +197,7 @@ class Calculator {
             historyHandler.addHistory(originalinput, result);
         }
         catch (error) {
-            inputOperation.displayError.call(this);
+            this.inputOperation.displayError();
         }
     }
     get displayValue() {
