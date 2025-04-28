@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script defer src="./dist/script.js" type="module"></script>
+</head>
+<body>
+    <div class="calculator">
+        <div class="calculator__feature">
+            <div class="feature--history">
+                <button class="btn--history" aria-label="history button"><img class="icon--history" src="./assets/svgs/history-line-icon.svg" alt="history icon"></button>
+                <h3 class="history__heading">History</h3>
+            </div>
+            <button class="btn--theme" aria-label="theme button"><img class="icon--theme" src="./assets/svgs/light.svg" alt="theme icon"></button>
+        </div>
+        <div class="calculator__history"></div>
+        <button class="btn--clearHistory">Delete History</button>
+        <div class="calculator__display">
+            <input type="text" class="display--input" placeholder="0" id="inputfield">
+        </div>
+        <div class="calculator__keypad">
+            <div class="row1">
+                <button class="row1__btn--DEG btn">DEG</button>
+                <button class="row1__btn--F-E btn">F-E</button>
+            </div>
+            <button class="row2 btn--MC btn" disabled>MC</button>
+            <button class="row2 btn--MR btn" disabled>MR</button>
+            <button class="row2 btn">M+</button>
+            <button class="row2 btn">M-</button>
+            <button class="row2 btn">MS</button>
+            <div class="row3">
+                <div class="row3__trigno--parent">
+                    <button class="row3__btn--trigno btn"><img class="triangle__image" src="./assets/trignometry.png" alt="triangle image">Trigonometry<img class="icon--down" src="assets/svgs/downarrow.svg" alt="downarrow"></button>
+                    <div class="dropdown--trigno">
+                        <button class="btn">sin</button>
+                        <button class="btn">cos</button>
+                        <button class="btn">tan</button>
+                        <button class="btn">cosec</button>
+                        <button class="btn">sec</button>
+                        <button class="btn">cot</button>
+                    </div>
+                </div>
+                <div class="row3__function--parent">
+                    <button class="row3__btn--function btn"><span class="icon--f">&#x1D453;</span>Function<img class="icon--down" src="assets/svgs/downarrow.svg" alt="downarrow"></button>
+                    <div class="dropdown--function">
+                        <button class="btn">floor</button>
+                        <button class="btn">ceil</button>
+                    </div>
+                </div>
+            </div>
+            <button class="btn">2<sup>nd</sup></button>
+            <button class="btn">&#x3C0;</button>
+            <button class="btn">e</button>
+            <button class="btn">C</button>
+            <button id="back" class="btn" aria-label="back button"><img src="./assets/svgs/cross.svg" alt="cross image"></button>
+            <button class="btn secondfunc--btn1">x<sup>2</sup></button>
+            <button class="btn"><sup>1</sup>/<sub>x</sub></button>
+            <button class="btn">|x|</button>
+            <button class="btn">exp</button>
+            <button class="btn">mod</button>
+            <button class="btn secondfunc--btn2"><sup class="sup--left">2</sup><span class="icon--root">&#8730;</span><span class="root-x">x</span></button>
+            <button class="btn">(</button>
+            <button class="btn">)</button>
+            <button class="btn">n!</button>
+            <button value="/" class="btn">&divide;</button>
+            <button class="btn">x<sup>y</sup></button>
+            <button class="number btn">7</button>
+            <button class="number btn">8</button>
+            <button class="number btn">9</button>
+            <button class="btn">x</button>
+            <button class="btn">10<sup>x</sup></button>
+            <button class="number btn">4</button>
+            <button class="number btn">5</button>
+            <button class="number btn">6</button>
+            <button class="btn">-</button>
+            <button class="btn">log</button>
+            <button class="number btn">1</button>
+            <button class="number btn">2</button>
+            <button class="number btn">3</button>
+            <button class="btn">+</button>
+            <button class="btn">ln</button>
+            <button class="number btn"><sup>+</sup>/<sub>-</sub></button>
+            <button class="number btn">0</button>
+            <button class="number btn">.</button>
+            <button class="equal btn">=</button>
+        </div>
+    </div>
+</body>
+</html>
